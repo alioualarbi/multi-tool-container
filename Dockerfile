@@ -2,16 +2,9 @@ FROM alpine
 
 # Install some tools in the container.
 RUN     apk update \
-    &&  apk add nginx bind-tools curl wget nmap procps tcpdump busybox-extras mtr openssh-client postgresql-client mysql-client rsync jq git iputils lftp netcat-openbsd socat iproute2 net-tools bash perl-net-telnet iperf3 ethtool apache2-utils python \
+    &&  apk add nginx bind-tools curl wget nmap procps tcpdump busybox-extras mtr openssh-client postgresql-client mysql-client rsync jq git iputils lftp netcat-openbsd socat iproute2 net-tools bash perl-net-telnet iperf3 ethtool apache2-utils \
     && mkdir /certs \
     && chmod 700 /certs 
-
-# Install Google Gloud SDK and componenet in the container.
-
-RUN wget https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz \
-    && tar zxvf google-cloud-sdk.tar.gz && ./google-cloud-sdk/install.sh --usage-reporting=false --path-update=true \
-    && google-cloud-sdk/bin/gcloud --quiet components update \
-    && google-cloud-sdk/bin/gcloud components install kubectl
 
 # Interesting:
 # Users of this image may wonder, why this multitool runs a web server? 
