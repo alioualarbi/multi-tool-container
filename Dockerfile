@@ -2,9 +2,7 @@ FROM alpine
 
 # Install some tools in the container.
 RUN     apk update \
-    &&  apk add nginx bind-tools curl wget nmap procps tcpdump busybox-extras mtr openssh-client postgresql-client mysql-client rsync jq git iputils lftp netcat-openbsd socat iproute2 net-tools bash perl-net-telnet iperf3 ethtool apache2-utils \
-    && mkdir /certs \
-    && chmod 700 /certs 
+    &&  apk add certbot nginx bind-tools curl wget nmap procps tcpdump busybox-extras mtr openssh-client postgresql-client mysql-client rsync jq git iputils lftp netcat-openbsd socat iproute2 net-tools bash perl-net-telnet iperf3 ethtool apache2-utils
 
 # Interesting:
 # Users of this image may wonder, why this multitool runs a web server? 
@@ -25,13 +23,6 @@ RUN     apk update \
 
 # Copy a simple index.html to eliminate text (index.html) noise which comes with default nginx image.
 # (I created an issue for this purpose here: https://github.com/nginxinc/docker-nginx/issues/234)
-COPY index.html /usr/share/nginx/html/
-
-
-# Copy a custom nginx.conf with log files redirected to stderr and stdout
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY nginx-connectors.conf /etc/nginx/conf.d/default.conf
-COPY server.* /certs/
 
 EXPOSE 80 443
 
@@ -44,4 +35,3 @@ RUN chmod +x /docker-entrypoint.sh
 ENTRYPOINT ["sh", "/docker-entrypoint.sh"]
 
 # Start nginx in foreground:
-CMD ["nginx", "-g", "daemon off;"]
