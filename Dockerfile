@@ -40,7 +40,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx-connectors.conf /etc/nginx/conf.d/default.conf
 COPY server.* /certs/
 
-EXPOSE 80 88 443
+EXPOSE 80 443
 
 #WORKDIR /
 COPY docker-entrypoint.sh /
